@@ -1,0 +1,202 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Mage Web API Documentation",
+        "description": "[Mage](https://www.getmage.io/) is a price optimization tool for in-app purchases.<br> Forget continuously setting up A/B-Tests or hiring data science teams for your app pricing! Mage fully automates simultaneous price testing & setting for in-app purchases in over 170 countries separately. So you don't have to deal with it!<br> Get started with [Mage](https://www.getmage.io/) to scale your products worldwide!<br><br> This is a documentation of the Mage Web API for your backend.<br> The API is documented according to the [openapi3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) standard.",
+        "contact": {
+            "name": "Mage Labs GmbH i.G.",
+            "url": "https://www.getmage.io/"
+        },
+        "license": {
+            "name": "MIT"
+        },
+        "version": "1.0.4"
+    },
+    "servers": [
+        {
+            "url": "https://room-of-requirement.getmage.io/v1"
+        }
+    ],
+    "paths": {
+        "/aparecium": {
+            "post": {
+                "summary": "Subscription Status Update",
+                "description": "Submit subscription status update from your backend.",
+                "operationId": "newPurchase",
+                "requestBody": {
+                    "description": "Purchased iap & current State of User",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "iapIdentifier",
+                                    "appUserId",
+                                    "subChangeState",
+                                    "stateChangeTime"
+                                ],
+                                "type": "object",
+                                "properties": {
+                                    "iapIdentifier": {
+                                        "type": "string",
+                                        "description": "The In-App Purchase Identifier of the iap, of which the status was updated."
+                                    },
+                                    "appUserId": {
+                                        "type": "string",
+                                        "description": "The User Id of the user who did the status update. Watch out, to use the same user id, you set for the Mage SDK in your App!"
+                                    },
+                                    "subChangeState": {
+                                        "type": "string",
+                                        "description": "The type of status update. Currently there are 4 types supported: 'Renew', 'Refund', 'Switch' and 'Rebuy'."
+                                    },
+                                    "stateChangeTime": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "description": "The datetime at which the change has been done."
+                                    },
+                                    "newIapIdentifier": {
+                                        "type": "string",
+                                        "description": "Only for 'Switch' status changes: the In-App Purchase Identifier of the iap, to which the user switched. (So that the 'iapIdentifier' object is the old iap)"
+                                    }
+                                },
+                                "example": {
+                                    "Switch": {
+                                        "iapIdentifier": "io.getmage.demo_app.premium_1_27",
+                                        "appUserId": "xyz_user",
+                                        "subChangeState": "Switch",
+                                        "stateChangeTime": 1593705685,
+                                        "newIapIdentifier": "io.getmage.demo_app.premium_plus_1_3"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "Switch": {
+                                    "summary": "User switching subscription",
+                                    "value": {
+                                        "iapIdentifier": "com.example.example_app.premium",
+                                        "appUserId": "example_user_id",
+                                        "subChangeState": "Switch",
+                                        "stateChangeTime": 1593705685,
+                                        "newIapIdentifier": "com.example.example_app.premium_plus"
+                                    }
+                                },
+                                "Renew": {
+                                    "summary": "Automatic or interactive subscription renewal",
+                                    "value": {
+                                        "iapIdentifier": "com.example.example_app.premium",
+                                        "appUserId": "example_user_id",
+                                        "subChangeState": "Renew",
+                                        "stateChangeTime": 1593705685
+                                    }
+                                },
+                                "Refund": {
+                                    "summary": "User refunds in-app purchase",
+                                    "value": {
+                                        "iapIdentifier": "com.example.example_app.premium",
+                                        "appUserId": "example_user_id",
+                                        "subChangeState": "Refund",
+                                        "stateChangeTime": 1593705685
+                                    }
+                                },
+                                "Rebuy": {
+                                    "summary": "User rebuys in-app purchase",
+                                    "value": {
+                                        "iapIdentifier": "com.example.example_app.premium",
+                                        "appUserId": "example_user_id",
+                                        "subChangeState": "Rebuy",
+                                        "stateChangeTime": 1593705685
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "500": {
+                        "description": "success/failure response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "message"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "response": {
+                                            "message": "Error (9901): No light."
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "500": {
+                                        "summary": "Errorcodes",
+                                        "value": {
+                                            "message": "Error (9901): No light."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "required": [
+                                        "status",
+                                        "message"
+                                    ],
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "example": {
+                                        "response": {
+                                            "status": 200,
+                                            "message": "Light is bright!"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "200": {
+                                        "summary": "Everything worked out fine",
+                                        "value": {
+                                            "status": 200,
+                                            "message": "Light is bright"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "personal_access_token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "personal_access_token": {
+                "type": "apiKey",
+                "description": "Personal Web-API-Key to access the protected resources.",
+                "name": "Token",
+                "in": "header"
+            }
+        }
+    }
+}
