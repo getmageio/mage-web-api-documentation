@@ -111,7 +111,7 @@
                     }
                 },
                 "responses": {
-                    "500": {
+                    "400": {
                         "description": "success/failure response",
                         "content": {
                             "application/json": {
@@ -132,7 +132,7 @@
                                     }
                                 },
                                 "examples": {
-                                    "500": {
+                                    "400": {
                                         "summary": "Errorcodes",
                                         "value": {
                                             "message": "Error (9901): No light."

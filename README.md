@@ -48,7 +48,7 @@ To submit a status change, use the path `/aparecium`. We distinguish between fou
 ---
 
 ## Errorcodes
-### Wrong API Usage
+### 400 Bad Request
 |Error     |Name     |Description    |
 |---  |---  |---  |
 |3001      |Attribut parsing missmatch      |Attribute could not be parsed, check the attribute types.     |
