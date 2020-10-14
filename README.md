@@ -10,7 +10,7 @@ The API is documented according to the [openapi3.0](https://github.com/OAI/OpenA
 The Mage Web API is kept quite simple. A more beautiful (designed) description can be found [here](https://hub.apitree.com/FlyingLasagna/privatecheck/). Sadly APITree does not show all openAPI3.0 definitions, so please have a look at ***this*** open source GitHub repository for complete documentation.
 
 The servers URL is: `https://room-of-requirement.getmage.io`<br>
-Current Version: 1.0.4<br>
+Current Version: 1.0.5<br>
 Version Path: `/v1`<br>
 There is one path available: `/aparecium`<br>
 (Yeah we like magic, don't you?)<br>
